@@ -1,0 +1,14 @@
+#if defined _attdef_cmd_serverpassword
+	#endinput
+#endif
+#define _attdef_cmd_serverpassword
+
+YCMD: serverpassword(playerid, params[], help)
+{
+	if (help)
+		return SendCommandHelpMessage(playerid, "display server password for everyone connected.");
+	if (!ServerLocked)
+		return SendErrorMessage(playerid, "Server is not locked.");
+
+	return va_SendClientMessageToAll(-1, COL_PRIM "\xBB Current Server Password: "COL_SEC"%s "COL_PRIM" Requested by "COL_SEC"%s", ServerPass[9], Player[playerid][Name]);
+}
