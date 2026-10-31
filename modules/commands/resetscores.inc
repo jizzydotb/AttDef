@@ -1,0 +1,40 @@
+#if defined _attdef_cmd_resetscores
+	#endinput
+#endif
+#define _attdef_cmd_resetscores
+
+YCMD: resetscores(playerid, params[], help)
+{
+	/*if (Player[playerid][Level] < 1 && !IsPlayerAdmin(playerid))
+		return SendErrorMessage(playerid, "You need to be a higher admin level to do that.");*/
+	if (help)
+		return SendCommandHelpMessage(playerid, "reset team scores.");
+
+
+
+	if (!SaveCasualTeamScores(0, 0))
+		return SendErrorMessage(playerid, "Could not save the casual score reset; no scores were changed.");
+
+	TeamScore[ATTACKER] = 0;
+	TeamScore[DEFENDER] = 0;
+	TeamRoundWins[ATTACKER] = 0;
+	TeamRoundWins[DEFENDER] = 0;
+	CurrentRound		= 0;
+
+	UpdateTeamScoreTextDraw();
+	UpdateRoundsPlayedTextDraw();
+	UpdateTeamNameTextDraw();
+
+	ClearPlayerVariables();
+
+	foreach (new i : Player)
+	{
+		Player[i][TotalKills]		 = 0;
+		Player[i][TotalDeaths]		 = 0;
+		Player[i][TotalDamage]		 = 0;
+		Player[i][RoundPlayed]		 = 0;
+		Player[i][TotalBulletsFired] = 0;
+		Player[i][TotalshotsHit]	 = 0;
+	}
+	return va_SendClientMessageToAll(-1, ""COL_PRIM"%s "COL_SEC"%s "COL_PRIM"has reset all scores.", PLAYER_ROLE_NAME(playerid), Player[playerid][Name]);
+}
