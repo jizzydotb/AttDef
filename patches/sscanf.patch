@@ -1,0 +1,44 @@
+diff --git a/sscanf2.inc b/sscanf2.inc
+index f6ee62e..4efee19 100644
+--- a/sscanf2.inc
++++ b/sscanf2.inc
+@@ -1090,10 +1090,14 @@ static stock SSCANF_RunInit()
+ 			new
+ 				name[MAX_PLAYER_NAME + 1];
+ 
+-			// Check if there are any players that aren't initialized.
++			// Sync sscanf plugin player table with actual connected players (handles /gmx).
+ 			for (new i = 0; i != MAX_PLAYERS; ++i)
+ 			{
+-				if (IsPlayerConnected(i) && !SSCANF_IsConnected(i))
++				while (SSCANF_IsConnected(i))
++				{
++					SSCANF_Leave(i);
++				}
++				if (IsPlayerConnected(i))
+ 				{
+ 					GetPlayerName(i, name, sizeof (name));
+ 					SSCANF_Join(i, name, bool:IsPlayerNPC(i));
+@@ -1308,6 +1312,10 @@ forward OnCachedInit();
+ 	{
+ 		if (SSCANF_gInit == 1)
+ 		{
++			while (SSCANF_IsConnected(playerid))
++			{
++				SSCANF_Leave(playerid);
++			}
+ 			new
+ 				name[MAX_PLAYER_NAME + 1];
+ 			GetPlayerName(playerid, name, sizeof(name));
+@@ -1341,7 +1349,10 @@ forward OnCachedInit();
+ 		SSCANF_OnPlayerDisconnect(playerid, reason);
+ 		if (SSCANF_gInit == 1)
+ 		{
+-			SSCANF_Leave(playerid);
++			while (SSCANF_IsConnected(playerid))
++			{
++				SSCANF_Leave(playerid);
++			}
+ 		}
+ 		return 1;
+ 	}

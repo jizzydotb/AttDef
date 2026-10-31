@@ -1,0 +1,364 @@
+diff --git a/weapon-config.inc b/weapon-config.inc
+index 40e98d0..3530ecc 100644
+--- a/weapon-config.inc
++++ b/weapon-config.inc
+@@ -41,12 +41,12 @@
+ 
+ // Damage feeds color (which a player give to another)
+ #if !defined WC_FEED_GIVEN_COLOR
+-	#define WC_FEED_GIVEN_COLOR 0x30FF50FF // light green
++	#define WC_FEED_GIVEN_COLOR 0xFFFFFFFF
+ #endif
+ 
+ // Damage feeds color (which a player take from another)
+ #if !defined WC_FEED_TAKEN_COLOR
+-	#define WC_FEED_TAKEN_COLOR 0x33CCFFFF // blue
++	#define WC_FEED_TAKEN_COLOR 0xFFFFFFFF
+ #endif
+ 
+ // Use Incognito's streamer for custom vending machines
+@@ -1070,6 +1070,7 @@ static s_SyncData[MAX_PLAYERS][E_RESYNC_DATA];
+ static Text:s_HealthBarBorder = Text:INVALID_TEXT_DRAW;
+ static Text:s_HealthBarBackground = Text:INVALID_TEXT_DRAW;
+ static PlayerText:s_HealthBarForeground[MAX_PLAYERS] = {PlayerText:INVALID_TEXT_DRAW, ...};
++static s_HealthBarFgColor[MAX_PLAYERS] = {WC_HEALTH_BAR_FG_COLOR, ...};
+ static PlayerText:s_HealthBarText[MAX_PLAYERS] = {PlayerText:INVALID_TEXT_DRAW, ...};
+ static PlayerText:s_ArmourBarText[MAX_PLAYERS] = {PlayerText:INVALID_TEXT_DRAW, ...};
+ static s_DamageRangeSteps[55];
+@@ -2936,6 +2937,7 @@ public OnPlayerConnect(playerid)
+ 	s_DelayedDeathTimer[playerid] = 0;
+ 	s_DamageFeedPlayer[playerid] = -1;
+ 	s_EnableHealthBar[playerid] = true; // enable by default
++	s_HealthBarFgColor[playerid] = WC_HEALTH_BAR_FG_COLOR;
+ 
+ 	#if !defined _INC_SKY
+ 		s_FakeHealth{playerid} = 255;
+@@ -3135,6 +3137,7 @@ public OnPlayerSpawn(playerid)
+ 		}
+ 
+ 		SetPlayerArmedWeapon(playerid, s_SyncData[playerid][e_Weapon]);
++		RefreshHealthBarForPlayer(playerid);
+ 
+ 		return 1;
+ 	}
+@@ -5280,11 +5283,12 @@ static UpdateHealthBar(playerid, bool:force = false)
+ 						4.7
+ 					);
+ 
+-					PlayerTextDrawColour(playerid, 			s_HealthBarForeground[playerid], WC_HEALTH_BAR_FG_COLOR);
++					PlayerTextDrawColour(playerid, 			s_HealthBarForeground[playerid], s_HealthBarFgColor[playerid]);
+ 					PlayerTextDrawFont(playerid, 			s_HealthBarForeground[playerid], TEXT_DRAW_FONT_SPRITE_DRAW);
+ 					PlayerTextDrawShow(playerid, 			s_HealthBarForeground[playerid]);
+ 				}
+ 			} else if (s_InternalPlayerTextDraw[playerid][s_HealthBarForeground[playerid]]) {
++				PlayerTextDrawColour(playerid, 			s_HealthBarForeground[playerid], s_HealthBarFgColor[playerid]);
+ 				PlayerTextDrawTextSize(playerid,
+ 					s_HealthBarForeground[playerid],
+ 					WC_CalculateBar(
+@@ -5308,7 +5312,7 @@ static UpdateHealthBar(playerid, bool:force = false)
+ 				s_HealthBarText[playerid] = CreatePlayerTextDraw(
+ 					playerid,
+ 					577,
+-					67.4,
++					66.0,
+ 					text
+ 				);
+ 				if (s_HealthBarText[playerid] == PlayerText:INVALID_TEXT_DRAW) {
+@@ -5317,7 +5321,7 @@ static UpdateHealthBar(playerid, bool:force = false)
+ 					s_InternalPlayerTextDraw[playerid][s_HealthBarText[playerid]] = true;
+ 					PlayerTextDrawBackgroundColour(playerid, s_HealthBarText[playerid], WC_HEALTH_TEXT_COLOR);
+ 					PlayerTextDrawFont(playerid, s_HealthBarText[playerid], 2);
+-					PlayerTextDrawLetterSize(playerid, s_HealthBarText[playerid], 0.2300, 0.7000);
++					PlayerTextDrawLetterSize(playerid, s_HealthBarText[playerid], 0.154166, 0.899999);
+ 					PlayerTextDrawColour(playerid, s_HealthBarText[playerid], WC_HEALTH_TEXT_COLOR);
+ 					PlayerTextDrawSetOutline(playerid, s_HealthBarText[playerid], 0);
+ 					PlayerTextDrawSetProportional(playerid, s_HealthBarText[playerid], true);
+@@ -5346,7 +5350,7 @@ static UpdateHealthBar(playerid, bool:force = false)
+ 				s_ArmourBarText[playerid] = CreatePlayerTextDraw(
+ 					playerid,
+ 					577,
+-					45.5,
++					44.1,
+ 					text
+ 				);
+ 				if (s_ArmourBarText[playerid] == PlayerText:INVALID_TEXT_DRAW) {
+@@ -5355,7 +5359,7 @@ static UpdateHealthBar(playerid, bool:force = false)
+ 					s_InternalPlayerTextDraw[playerid][s_ArmourBarText[playerid]] = true;
+ 					PlayerTextDrawBackgroundColour(playerid, s_ArmourBarText[playerid], WC_ARMOUR_TEXT_COLOR);
+ 					PlayerTextDrawFont(playerid, s_ArmourBarText[playerid], 2);
+-					PlayerTextDrawLetterSize(playerid, s_ArmourBarText[playerid], 0.2300, 0.7000);
++					PlayerTextDrawLetterSize(playerid, s_ArmourBarText[playerid], 0.154166, 0.899999);
+ 					PlayerTextDrawColour(playerid, s_ArmourBarText[playerid], WC_ARMOUR_TEXT_COLOR);
+ 					PlayerTextDrawSetOutline(playerid, s_ArmourBarText[playerid], 0);
+ 					PlayerTextDrawSetProportional(playerid, s_ArmourBarText[playerid], true);
+@@ -5419,6 +5423,62 @@ static SetHealthBarVisible(playerid, bool:toggle)
+ 	}
+ }
+ 
++stock RefreshHealthBarForPlayer(playerid)
++{
++	if (playerid < 0 || playerid >= MAX_PLAYERS || !IsPlayerConnected(playerid) || !s_EnableHealthBar[playerid]) {
++		return 0;
++	}
++
++	if (s_HealthBarForeground[playerid] != PlayerText:INVALID_TEXT_DRAW) {
++		PlayerTextDrawDestroy(playerid, s_HealthBarForeground[playerid]);
++		s_InternalPlayerTextDraw[playerid][s_HealthBarForeground[playerid]] = false;
++		s_HealthBarForeground[playerid] = PlayerText:INVALID_TEXT_DRAW;
++	}
++	if (s_HealthBarText[playerid] != PlayerText:INVALID_TEXT_DRAW) {
++		PlayerTextDrawDestroy(playerid, s_HealthBarText[playerid]);
++		s_InternalPlayerTextDraw[playerid][s_HealthBarText[playerid]] = false;
++		s_HealthBarText[playerid] = PlayerText:INVALID_TEXT_DRAW;
++	}
++	if (s_ArmourBarText[playerid] != PlayerText:INVALID_TEXT_DRAW) {
++		PlayerTextDrawDestroy(playerid, s_ArmourBarText[playerid]);
++		s_InternalPlayerTextDraw[playerid][s_ArmourBarText[playerid]] = false;
++		s_ArmourBarText[playerid] = PlayerText:INVALID_TEXT_DRAW;
++	}
++
++	if (s_HealthBarVisible[playerid]) {
++		UpdateHealthBar(playerid, true);
++	}
++	return 1;
++}
++
++stock SetPlayerHealthBarColor(playerid, colour)
++{
++	if (playerid < 0 || playerid >= MAX_PLAYERS || !IsPlayerConnected(playerid)) {
++		return 0;
++	}
++	s_HealthBarFgColor[playerid] = colour;
++	if (s_HealthBarForeground[playerid] != PlayerText:INVALID_TEXT_DRAW) {
++		PlayerTextDrawColour(playerid, s_HealthBarForeground[playerid], colour);
++		if (s_HealthBarVisible[playerid] && !s_IsDying[playerid]) {
++			PlayerTextDrawShow(playerid, s_HealthBarForeground[playerid]);
++		}
++	}
++	return 1;
++}
++
++stock SetPlayerHealthBarColour(playerid, colour)
++{
++	return SetPlayerHealthBarColor(playerid, colour);
++}
++
++stock GetPlayerHealthBarColor(playerid)
++{
++	if (playerid < 0 || playerid >= MAX_PLAYERS) {
++		return WC_HEALTH_BAR_FG_COLOR;
++	}
++	return s_HealthBarFgColor[playerid];
++}
++
+ static SpawnPlayerInPlace(playerid) {
+ 	new Float:x, Float:y, Float:z, Float:r;
+ 
+@@ -6494,31 +6554,50 @@ static DamageFeedUpdateText(playerid)
+ 			format(
+ 				buf,
+ 				sizeof(buf),
+-				"%s~w~-%d ~b~%s~n~",
++				"%s~w~+%d ~w~%s~n~",
+ 				buf,
+ 				floatround(s_DamageFeedHitsGiven[playerid][i][e_Amount] + 0.009),
+ 				weapon
+ 			);
+ 		} else {
+-			new remainingHP[20];
+-			new Float: finalHealth = s_PlayerHealth[s_DamageFeedHitsGiven[playerid][i][e_Issuer]];
+-			new Float: finalArmour = s_PlayerArmour[s_DamageFeedHitsGiven[playerid][i][e_Issuer]];
++			new targetid = s_DamageFeedHitsGiven[playerid][i][e_Issuer];
++			new targetTeam = CallLocalFunction("GetPlayerTeamID", "i", targetid);
++			new teamColor[12];
++			switch (targetTeam)
++			{
++				case 1: teamColor = "~g~~h~";
++				case 4: teamColor = "~g~~h~";
++				case 2: teamColor = "~b~~h~";
++				case 5: teamColor = "~b~~h~~h~";
++				case 3: teamColor = "~y~~h~";
++				default: teamColor = "~w~";
++			}
++
++			new remainingHP[24];
++			new Float: finalHealth = s_PlayerHealth[targetid];
++			new Float: finalArmour = s_PlayerArmour[targetid];
++			new totalHP = floatround(finalHealth + finalArmour);
++			if (totalHP < 0) totalHP = 0;
++
+ 			if (finalArmour > 0.0)
+ 			{
+-				format(remainingHP, sizeof(remainingHP), "~w~(%d)", floatround(finalHealth + finalArmour));
++				format(remainingHP, sizeof(remainingHP), "%s%d HP", teamColor, totalHP);
+ 			}
+ 			else
+ 			{
+-				format(remainingHP, sizeof(remainingHP), "~w~(~r~~h~%d~w~)", floatround(finalHealth + finalArmour));
++				format(remainingHP, sizeof(remainingHP), "~r~~h~%d HP", totalHP);
+ 			}
+ 			format(
+ 				buf,
+ 				sizeof(buf),
+-				"%s~b~%s ~w~/ -%d ~b~%s %s~n~",
++				"%s%s%s / ~w~+%d %s/ %s %s/ %s~n~",
+ 				buf,
++				teamColor,
+ 				s_DamageFeedHitsGiven[playerid][i][e_Name],
+ 				floatround(s_DamageFeedHitsGiven[playerid][i][e_Amount] + 0.009),
++				teamColor,
+ 				weapon,
++				teamColor,
+ 				remainingHP
+ 			);
+ 		}
+@@ -6537,6 +6616,37 @@ static DamageFeedUpdateText(playerid)
+ 
+ 	buf = "";
+ 
++	new targetVictim = (s_Spectating[playerid] != INVALID_PLAYER_ID && s_Spectating[playerid] != playerid) ? s_Spectating[playerid] : playerid;
++	new myTeam = CallLocalFunction("GetPlayerTeamID", "i", targetVictim);
++	new myTeamColor[12];
++	switch (myTeam)
++	{
++		case 1: myTeamColor = "~g~~h~";
++		case 4: myTeamColor = "~g~~h~";
++		case 2: myTeamColor = "~b~~h~";
++		case 5: myTeamColor = "~b~~h~~h~";
++		case 3: myTeamColor = "~y~~h~";
++		default: myTeamColor = "~w~";
++	}
++
++	new myName[MAX_PLAYER_NAME];
++	GetPlayerName(targetVictim, myName, sizeof(myName));
++
++	new Float: myHealth = s_PlayerHealth[targetVictim];
++	new Float: myArmour = s_PlayerArmour[targetVictim];
++	new myTotalHP = floatround(myHealth + myArmour);
++	if (myTotalHP < 0) myTotalHP = 0;
++
++	new myRemainingHP[24];
++	if (myArmour > 0.0)
++	{
++		format(myRemainingHP, sizeof(myRemainingHP), "%s%d HP", myTeamColor, myTotalHP);
++	}
++	else
++	{
++		format(myRemainingHP, sizeof(myRemainingHP), "~r~~h~%d HP", myTotalHP);
++	}
++
+ 	for (new i = 0, weapon[32]; i < sizeof(s_DamageFeedHitsTaken[]) - 1; i++) {
+ 		if (!s_DamageFeedHitsTaken[playerid][i][e_Tick]) {
+ 			break;
+@@ -6548,39 +6658,19 @@ static DamageFeedUpdateText(playerid)
+ 			WC_GetWeaponName(s_DamageFeedHitsTaken[playerid][i][e_Weapon], weapon);
+ 		}
+ 
+-		new remainingHP[20];
+-		new Float: finalHealth = s_PlayerHealth[playerid];
+-		new Float: finalArmour = s_PlayerArmour[playerid];
+-		if (finalArmour > 0.0)
+-		{
+-			format(remainingHP, sizeof(remainingHP), "~w~(%d)", floatround(finalHealth + finalArmour));
+-		}
+-		else
+-		{
+-			format(remainingHP, sizeof(remainingHP), "~w~(~r~~h~%d~w~)", floatround(finalHealth + finalArmour));
+-		}
+-		if (s_DamageFeedHitsTaken[playerid][i][e_Issuer] == INVALID_PLAYER_ID) {
+-			format(
+-				buf,
+-				sizeof(buf),
+-				"%s~w~-%d ~r~~h~%s %s~n~",
+-				buf,
+-				floatround(s_DamageFeedHitsTaken[playerid][i][e_Amount] + 0.009),
+-				weapon,
+-				remainingHP
+-			);
+-		} else {
+-			format(
+-				buf,
+-				sizeof(buf),
+-				"%s~r~~h~%s ~w~/ -%d ~r~~h~%s %s~n~",
+-				buf,
+-				s_DamageFeedHitsTaken[playerid][i][e_Name],
+-				floatround(s_DamageFeedHitsTaken[playerid][i][e_Amount] + 0.009),
+-				weapon,
+-				remainingHP
+-			);
+-		}
++		format(
++			buf,
++			sizeof(buf),
++			"%s%s%s / ~w~-%d %s/ %s %s/ %s~n~",
++			buf,
++			myTeamColor,
++			myName,
++			floatround(s_DamageFeedHitsTaken[playerid][i][e_Amount] + 0.009),
++			myTeamColor,
++			weapon,
++			myTeamColor,
++			myRemainingHP
++		);
+ 	}
+ 
+ 	if (s_DamageFeedTaken[playerid] == PlayerText:INVALID_TEXT_DRAW) {
+@@ -6903,36 +6993,46 @@ static SendLastSyncPacket(playerid, toplayerid, animation = 0)
+ 		return 0;
+ 	}
+ 
+-	new BitStream:bs = BS_New();
+-
+-	BS_WriteValue(bs, PR_UINT8, WC_PLAYER_SYNC, PR_UINT16, playerid);
++	new syncData[PR_OnFootSync];
++	syncData = s_LastSyncData[playerid];
+ 
+ 	if (s_FakeQuat[playerid][0] == s_FakeQuat[playerid][0]) {
+-		s_LastSyncData[playerid][PR_quaternion] = s_FakeQuat[playerid];
++		syncData[PR_quaternion] = s_FakeQuat[playerid];
+ 	}
+ 
+ 	if (s_FakeHealth{playerid} != 255) {
+-		s_LastSyncData[playerid][PR_health] = s_FakeHealth{playerid};
++		syncData[PR_health] = s_FakeHealth{playerid};
+ 	}
+ 
+ 	if (s_FakeArmour{playerid} != 255) {
+-		s_LastSyncData[playerid][PR_armour] = s_FakeArmour{playerid};
++		syncData[PR_armour] = s_FakeArmour{playerid};
+ 	}
+ 
+ 	// Make them appear standing still if paused
+ 	if (WC_IsPlayerPaused(playerid)) {
+-		s_LastSyncData[playerid][PR_velocity][0] = 0.0;
+-		s_LastSyncData[playerid][PR_velocity][1] = 0.0;
+-		s_LastSyncData[playerid][PR_velocity][2] = 0.0;
++		new Float:x, Float:y, Float:z;
++		if (!GetPlayerPos(playerid, x, y, z)) {
++			return 0;
++		}
++
++		syncData[PR_position][0] = x;
++		syncData[PR_position][1] = y;
++		syncData[PR_position][2] = z;
++		syncData[PR_velocity][0] = 0.0;
++		syncData[PR_velocity][1] = 0.0;
++		syncData[PR_velocity][2] = 0.0;
+ 	}
+ 
+ 	// Animations are only sent when they are changed
+ 	if (!animation) {
+-		s_LastSyncData[playerid][PR_animationId] = 0;
+-		s_LastSyncData[playerid][PR_animationFlags] = 0;
++		syncData[PR_animationId] = 0;
++		syncData[PR_animationFlags] = 0;
+ 	}
+ 
+-	BS_WriteOnFootSync(bs, s_LastSyncData[playerid], true);
++	new BitStream:bs = BS_New();
++
++	BS_WriteValue(bs, PR_UINT8, WC_PLAYER_SYNC, PR_UINT16, playerid);
++	BS_WriteOnFootSync(bs, syncData, true);
+ 	PR_SendPacket(bs, toplayerid, _, PR_RELIABLE_SEQUENCED);
+ 	BS_Delete(bs);
+ 

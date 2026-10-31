@@ -1,0 +1,13 @@
+diff --git a/geoip.inc b/geoip.inc
+index c84346c..c94b1b5 100644
+--- a/geoip.inc
++++ b/geoip.inc
+@@ -186,7 +186,7 @@ hook OnGeoResponse(playerid, response_code, data[]) {
+ 	Logger_Dbg("geoip", "received ip data", Logger_I("playerid", playerid), Logger_I("response_code", response_code));
+ 
+ 	if(response_code != 200) {
+-		Logger_Err("ip-api response status code was not OK", Logger_I("response_code", response_code));
++		Logger_Log("ip-api response status code was not OK", Logger_I("response_code", response_code));
+ #if !defined _logger_included
+ 		printf("ip-api response status code was not OK: response_code %d", response_code);
+ #endif

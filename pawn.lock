@@ -1,0 +1,287 @@
+{
+    "version":  1,
+    "generated":  "2026-10-31T19:50:34.117046Z",
+    "sampctl_version":  "1.16.0",
+    "dependencies":  {
+                         "github.com/AmyrAhmady/samp-plugin-crashdetect":  {
+                                                                               "constraint":  ":v4.22",
+                                                                               "resolved":  "v4.22",
+                                                                               "commit":  "6c02b6ed6b92ed8a69d8d877d66ff13cc514d676",
+                                                                               "site":  "github.com",
+                                                                               "user":  "AmyrAhmady",
+                                                                               "repo":  "samp-plugin-crashdetect",
+                                                                               "required_by":  [
+                                                                                                   "github.com/Southclaws/samp-logger"
+                                                                                               ]
+                                                                           },
+                         "github.com/BigETI/pawn-map":  {
+                                                            "constraint":  "",
+                                                            "resolved":  "HEAD",
+                                                            "commit":  "306a45f247394d82a4ecda3009402869050d1c1c",
+                                                            "site":  "github.com",
+                                                            "user":  "BigETI",
+                                                            "repo":  "pawn-map",
+                                                            "required_by":  [
+                                                                                "github.com/ZantetsukenGT/samp-geoip"
+                                                                            ]
+                                                        },
+                         "github.com/BigETI/pawn-memory":  {
+                                                               "constraint":  "",
+                                                               "resolved":  "2.0.1",
+                                                               "commit":  "8d458f9603d477d1f72c55a03cbeef7e226f0f80",
+                                                               "site":  "github.com",
+                                                               "user":  "BigETI",
+                                                               "repo":  "pawn-memory",
+                                                               "required_by":  [
+                                                                                   "github.com/BigETI/pawn-map"
+                                                                               ]
+                                                           },
+                         "github.com/Southclaws/pawn-requests":  {
+                                                                     "constraint":  "",
+                                                                     "resolved":  "v0.11.1",
+                                                                     "commit":  "10ee30cb7952193e56e954b68880317e9e27bd63",
+                                                                     "site":  "github.com",
+                                                                     "user":  "Southclaws",
+                                                                     "repo":  "pawn-requests",
+                                                                     "required_by":  [
+                                                                                         "github.com/ZantetsukenGT/samp-geoip"
+                                                                                     ]
+                                                                 },
+                         "github.com/Southclaws/samp-logger":  {
+                                                                   "constraint":  "",
+                                                                   "resolved":  "1.5.0",
+                                                                   "commit":  "8c5a80284eeee1b45284cdee241b9eb690a430f4",
+                                                                   "site":  "github.com",
+                                                                   "user":  "Southclaws",
+                                                                   "repo":  "samp-logger",
+                                                                   "required_by":  [
+                                                                                       "github.com/ZantetsukenGT/progress2",
+                                                                                       "github.com/ZantetsukenGT/samp-geoip"
+                                                                                   ]
+                                                               },
+                         "github.com/Sreyas-Sreelal/samp-bcrypt":  {
+                                                                       "constraint":  "",
+                                                                       "resolved":  "0.4.1",
+                                                                       "commit":  "c60e68d483a95d109855fdd7517425c0363fd10c",
+                                                                       "site":  "github.com",
+                                                                       "user":  "Sreyas-Sreelal",
+                                                                       "repo":  "samp-bcrypt"
+                                                                   },
+                         "github.com/Y-Less/code-parse.inc":  {
+                                                                  "constraint":  "",
+                                                                  "resolved":  "HEAD",
+                                                                  "commit":  "c37e249e17ee6618e0c8004da7763ae555fbfeaa",
+                                                                  "site":  "github.com",
+                                                                  "user":  "Y-Less",
+                                                                  "repo":  "code-parse.inc",
+                                                                  "transitive":  true,
+                                                                  "required_by":  [
+                                                                                      "github.com/pawn-lang/YSI-Includes"
+                                                                                  ]
+                                                              },
+                         "github.com/Y-Less/indirection":  {
+                                                               "constraint":  "",
+                                                               "resolved":  "HEAD",
+                                                               "commit":  "06f39798230056372fde0c7392a0d2456e5b150c",
+                                                               "site":  "github.com",
+                                                               "user":  "Y-Less",
+                                                               "repo":  "indirection",
+                                                               "transitive":  true,
+                                                               "required_by":  [
+                                                                                   "github.com/pawn-lang/YSI-Includes"
+                                                                               ]
+                                                           },
+                         "github.com/Y-Less/sscanf":  {
+                                                          "constraint":  "",
+                                                          "resolved":  "v2.13.8",
+                                                          "commit":  "143f301ac6b30e6855ff14d57fd0bd1c909c6891",
+                                                          "site":  "github.com",
+                                                          "user":  "Y-Less",
+                                                          "repo":  "sscanf"
+                                                      },
+                         "github.com/ZantetsukenGT/MapFix":  {
+                                                                 "constraint":  "",
+                                                                 "resolved":  "HEAD",
+                                                                 "commit":  "d7476ca20cec91fe3a9321c31ceb8f3fb288c5d4",
+                                                                 "site":  "github.com",
+                                                                 "user":  "ZantetsukenGT",
+                                                                 "repo":  "MapFix"
+                                                             },
+                         "github.com/ZantetsukenGT/progress2":  {
+                                                                    "constraint":  "",
+                                                                    "resolved":  "v2.3.0",
+                                                                    "commit":  "362ee9bd948d7c07731a9025f89d5fcfb3bf87c0",
+                                                                    "site":  "github.com",
+                                                                    "user":  "ZantetsukenGT",
+                                                                    "repo":  "progress2"
+                                                                },
+                         "github.com/ZantetsukenGT/samp-discord-connector":  {
+                                                                                 "constraint":  ":v0.3.6",
+                                                                                 "resolved":  "v0.3.6",
+                                                                                 "commit":  "fa6d6a320ba11e977557bdff51394bfe75e1fbd7",
+                                                                                 "site":  "github.com",
+                                                                                 "user":  "ZantetsukenGT",
+                                                                                 "repo":  "samp-discord-connector"
+                                                                             },
+                         "github.com/ZantetsukenGT/samp-dyn-dialog-pages":  {
+                                                                                "constraint":  "",
+                                                                                "resolved":  "HEAD",
+                                                                                "commit":  "c065a0a541694a4742aa896e20499cae442d8da2",
+                                                                                "site":  "github.com",
+                                                                                "user":  "ZantetsukenGT",
+                                                                                "repo":  "samp-dyn-dialog-pages"
+                                                                            },
+                         "github.com/ZantetsukenGT/samp-geoip":  {
+                                                                     "constraint":  "",
+                                                                     "resolved":  "1.0.1",
+                                                                     "commit":  "934bf64fbc0eb51ee04f727a547f6318cac4734b",
+                                                                     "site":  "github.com",
+                                                                     "user":  "ZantetsukenGT",
+                                                                     "repo":  "samp-geoip"
+                                                                 },
+                         "github.com/ZantetsukenGT/samp-weapon-config":  {
+                                                                             "constraint":  "",
+                                                                             "resolved":  "HEAD",
+                                                                             "commit":  "c7512b7a4e2a8412fe9ff14337ef8924e8ff74cb",
+                                                                             "site":  "github.com",
+                                                                             "user":  "ZantetsukenGT",
+                                                                             "repo":  "samp-weapon-config"
+                                                                         },
+                         "github.com/Zeex/amx_assembly":  {
+                                                              "constraint":  "",
+                                                              "resolved":  "v1.0",
+                                                              "commit":  "dd5a1632f26486c287be7866f0f6b573263a7ae7",
+                                                              "site":  "github.com",
+                                                              "user":  "Zeex",
+                                                              "repo":  "amx_assembly",
+                                                              "transitive":  true,
+                                                              "required_by":  [
+                                                                                  "github.com/Y-Less/indirection",
+                                                                                  "github.com/pawn-lang/YSI-Includes"
+                                                                              ]
+                                                          },
+                         "github.com/katursis/Pawn.RakNet":  {
+                                                                 "constraint":  "@omp",
+                                                                 "resolved":  "omp",
+                                                                 "commit":  "dacb88d1c05d56614e6d2c6cd760d7dd6bba0df8",
+                                                                 "site":  "github.com",
+                                                                 "user":  "katursis",
+                                                                 "repo":  "Pawn.RakNet",
+                                                                 "branch":  "omp"
+                                                             },
+                         "github.com/openmultiplayer/omp-stdlib":  {
+                                                                       "constraint":  "",
+                                                                       "resolved":  "HEAD",
+                                                                       "commit":  "17c1b0191195cb0b59a820135fbca622c84129dd",
+                                                                       "site":  "github.com",
+                                                                       "user":  "openmultiplayer",
+                                                                       "repo":  "omp-stdlib",
+                                                                       "required_by":  [
+                                                                                           "github.com/ZantetsukenGT/samp-dyn-dialog-pages",
+                                                                                           "github.com/pawn-lang/pawn-stdlib",
+                                                                                           "github.com/pawn-lang/samp-stdlib"
+                                                                                       ]
+                                                                   },
+                         "github.com/oscar-broman/SKY":  {
+                                                             "constraint":  ":2.3.1",
+                                                             "resolved":  "2.3.1",
+                                                             "commit":  "5dfd83de778562e98db11d820916d317ce015eaf",
+                                                             "site":  "github.com",
+                                                             "user":  "oscar-broman",
+                                                             "repo":  "SKY",
+                                                             "transitive":  true,
+                                                             "required_by":  [
+                                                                                 "github.com/ZantetsukenGT/samp-weapon-config"
+                                                                             ]
+                                                         },
+                         "github.com/oscar-broman/md-sort":  {
+                                                                 "constraint":  "",
+                                                                 "resolved":  "HEAD",
+                                                                 "commit":  "65c72b6685576ee7e5a6102406970c2f9ef04980",
+                                                                 "site":  "github.com",
+                                                                 "user":  "oscar-broman",
+                                                                 "repo":  "md-sort",
+                                                                 "transitive":  true,
+                                                                 "required_by":  [
+                                                                                     "github.com/pawn-lang/YSI-Includes"
+                                                                                 ]
+                                                             },
+                         "github.com/oscar-broman/strlib":  {
+                                                                "constraint":  "",
+                                                                "resolved":  "HEAD",
+                                                                "commit":  "d48c74a65f03131381404fdc8e64873384e4c9b8",
+                                                                "site":  "github.com",
+                                                                "user":  "oscar-broman",
+                                                                "repo":  "strlib"
+                                                            },
+                         "github.com/pawn-lang/YSI-Includes":  {
+                                                                   "constraint":  "@5.x",
+                                                                   "resolved":  "5.x",
+                                                                   "commit":  "fa673344659bce16fc13f0c11151eafbdf7c890f",
+                                                                   "site":  "github.com",
+                                                                   "user":  "pawn-lang",
+                                                                   "repo":  "YSI-Includes",
+                                                                   "branch":  "5.x",
+                                                                   "required_by":  [
+                                                                                       "github.com/ZantetsukenGT/progress2",
+                                                                                       "github.com/ZantetsukenGT/samp-dyn-dialog-pages",
+                                                                                       "github.com/ZantetsukenGT/samp-geoip"
+                                                                                   ]
+                                                               },
+                         "github.com/pawn-lang/pawn-stdlib":  {
+                                                                  "constraint":  "@open.mp",
+                                                                  "resolved":  "open.mp",
+                                                                  "commit":  "2fbfadd53112c508f58982a52c8c7c0332c46be8",
+                                                                  "site":  "github.com",
+                                                                  "user":  "pawn-lang",
+                                                                  "repo":  "pawn-stdlib",
+                                                                  "branch":  "open.mp",
+                                                                  "required_by":  [
+                                                                                      "github.com/BigETI/pawn-map",
+                                                                                      "github.com/Sreyas-Sreelal/samp-bcrypt",
+                                                                                      "github.com/ZantetsukenGT/samp-dyn-dialog-pages"
+                                                                                  ]
+                                                              },
+                         "github.com/pawn-lang/samp-stdlib":  {
+                                                                  "constraint":  "@open.mp",
+                                                                  "resolved":  "open.mp",
+                                                                  "commit":  "dce9af6d16c8b8ec2d38ac78a30a8c9daa3665e5",
+                                                                  "site":  "github.com",
+                                                                  "user":  "pawn-lang",
+                                                                  "repo":  "samp-stdlib",
+                                                                  "branch":  "open.mp",
+                                                                  "required_by":  [
+                                                                                      "github.com/BigETI/pawn-memory",
+                                                                                      "github.com/Southclaws/pawn-requests",
+                                                                                      "github.com/Southclaws/samp-logger",
+                                                                                      "github.com/Y-Less/indirection",
+                                                                                      "github.com/ZantetsukenGT/MapFix",
+                                                                                      "github.com/ZantetsukenGT/progress2",
+                                                                                      "github.com/ZantetsukenGT/samp-dyn-dialog-pages",
+                                                                                      "github.com/ZantetsukenGT/samp-geoip",
+                                                                                      "github.com/ZantetsukenGT/samp-weapon-config",
+                                                                                      "github.com/oscar-broman/md-sort",
+                                                                                      "github.com/oscar-broman/strlib",
+                                                                                      "github.com/pawn-lang/YSI-Includes"
+                                                                                  ]
+                                                              },
+                         "github.com/samp-incognito/samp-streamer-plugin":  {
+                                                                                "constraint":  "",
+                                                                                "resolved":  "v2.9.6",
+                                                                                "commit":  "afca207b148da6e0dea03693042a1e9665457403",
+                                                                                "site":  "github.com",
+                                                                                "user":  "samp-incognito",
+                                                                                "repo":  "samp-streamer-plugin",
+                                                                                "transitive":  true,
+                                                                                "required_by":  [
+                                                                                                    "github.com/ZantetsukenGT/MapFix"
+                                                                                                ]
+                                                                            }
+                     },
+    "build":  {
+                  "compiler_preset":  "openmp",
+                  "entry":  "gamemodes/attdef.pwn",
+                  "output":  "gamemodes/attdef.amx",
+                  "output_hash":  "sha256:d0b633c8e5688fcfacceaf37ac25461af18c6c85e6e7ba7aec1d4e2988eeab3e"
+              }
+}

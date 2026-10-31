@@ -1,0 +1,28 @@
+diff --git a/src/Pawn.RakNet.inc b/src/Pawn.RakNet.inc
+index 3913e93..55eef34 100644
+--- a/src/Pawn.RakNet.inc
++++ b/src/Pawn.RakNet.inc
+@@ -29,7 +29,7 @@
+         #define PACK_PLUGIN_VERSION(%0,%1,%2) (((%0) << 16) | ((%1) << 8) | (%2))
+     #endif
+ 
+-    #define PAWNRAKNET_VERSION PACK_PLUGIN_VERSION(1, 6, 1)
++    #define PAWNRAKNET_VERSION PACK_PLUGIN_VERSION(1, 6, 0)
+     #define PAWNRAKNET_INCLUDE_VERSION PAWNRAKNET_VERSION // backward compatibility
+ 
+     #define PR_MAX_HANDLERS 256
+@@ -123,11 +123,14 @@
+         #define ORPC:%0(%1)<%2> PR_Handler<PR_OUTGOING_RPC,or>:%0@%2(%1)
+         #define ICustomRPC:%0(%1)<%2> PR_Handler<PR_INCOMING_CUSTOM_RPC,icr>:%0@%2(%1)
+ 
++        #pragma warning push
++        #pragma warning disable 201
+         #define IPacket:%0(%1) PR_Handler<PR_INCOMING_PACKET,ip>:%0@default(%1)
+         #define IRPC:%0(%1) PR_Handler<PR_INCOMING_RPC,ir>:%0@default(%1)
+         #define OPacket:%0(%1) PR_Handler<PR_OUTGOING_PACKET,op>:%0@default(%1)
+         #define ORPC:%0(%1) PR_Handler<PR_OUTGOING_RPC,or>:%0@default(%1)
+         #define ICustomRPC:%0(%1) PR_Handler<PR_INCOMING_CUSTOM_RPC,icr>:%0@default(%1)
++        #pragma warning pop
+ 
+         #define IncomingPacket IPacket
+         #define IncomingRPC IRPC
