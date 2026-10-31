@@ -1,0 +1,33 @@
+#if defined _attdef_cmd_getgun
+	#endinput
+#endif
+#define _attdef_cmd_getgun
+
+YCMD: getgun(playerid, params[], help)
+{
+	if (help)
+		return SendCommandHelpMessage(playerid, "give you a specific weapon");
+	if (!LobbyGuns)
+		return SendErrorMessage(playerid, "Guns in lobby are disabled.");
+	if (Player[playerid][Playing])
+		return SendErrorMessage(playerid, "Can't use this command while playing.");
+	if (Player[playerid][InDuel])
+		return SendErrorMessage(playerid, "Can't use this command during duel. Use /rq instead.");
+	if (Player[playerid][InDM])
+		return SendErrorMessage(playerid, "Can't use this command during DM.");
+
+	new Weapon[50], Ammo;
+
+	if (sscanf(params, "s[*]I(250)", sizeof(Weapon), Weapon, Ammo))
+		return SendUsageMessage(playerid, "/getgun [Weapon Name] [Optional: Ammo]");
+
+	new WeaponID = GetWeaponID(Weapon);
+	if (!IsValidWeapon(WeaponID))
+		return SendErrorMessage(playerid, "Invalid Weapon Name.");
+	Ammo = clamp(Ammo, 10, 9999);
+
+	GivePlayerWeapon(playerid, WeaponID, Ammo);
+
+	return va_SendClientMessageToAll(-1, ""COL_PRIM"%s "COL_SEC"%s " COL_PRIM "equipped "COL_SEC"%s " COL_PRIM "with "COL_SEC"%d " COL_PRIM "ammo.", PLAYER_ROLE_NAME(playerid), Player[playerid][Name],
+		ReturnWeaponName(WeaponID), Ammo);
+}
