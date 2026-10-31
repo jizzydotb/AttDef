@@ -453,5 +453,3 @@ stock DestroyDynamicVehicles(whatvehicles)
 	}
 	return 1;
 }
-
-forward AimbotCheck(playerid);
